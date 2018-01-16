@@ -1,0 +1,164 @@
+<!-- Nav -->
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                        
+          </button>
+            <a class="navbar-brand" href="#">MarkNewsReader</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a ng-click="refreshNews()">Home</a></li>
+                <li ng-show="savedNews.articles.length > 0"><a data-toggle="modal" data-target="#modalSaved">Saved</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="" data-toggle="modal" data-target="#modalSettings"><i class="fa fa-cog" ></i> Settings</a></li>
+            </ul>
+
+            <form class=" navbar-form navbar-right" id="searchForm" name="searchForm" ng-submit="searchNews(searchForm)">>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="query" ng-model="querystring.q" placeholder="Search the news&hellip;">
+                    <span class="input-group-btn">
+                 <button type="submit" class="btn btn-primary" ng-click="search()"><i class="fa fa-search"></i></button>
+              </span>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</nav>
+
+
+    <!-- Content -->
+<div class="container">
+
+    <h1 class="my-4">Top Stories
+        <span class="updated">Updated: {{ date.now | date : 'medium' }}</span>
+    </h1>
+    <hr>
+
+    <div ng-show="connectionError" class="alert alert-danger" role="alert">
+        <a href="#" class="alert-link">An error has occurred, please ensure you are online and try again</a>
+    </div>
+
+        <!-- Story repeat -->
+    <div class="row article" ng-repeat="story in news.articles.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) track by $index">
+        <div class="col-md-4">
+            <a href="{{story.url}}" target="_blank">
+            <img class="img-fluid" ng-src="{{story.urlToImage}}" alt="{{story.title}}">
+          </a>
+        </div>
+        <div class="col-md-8">
+            <h3 class="storyTitle">{{story.title}}</h3>
+            <h5 class="storyInfo">
+                <span><time-ago from-time='{{ story.publishedAt }}'></time-ago>, {{story.author}}
+            <span ng-if="story.author">-</span>
+                <span>{{story.source.name}}</span>
+            </h5>
+            <p>{{story.description}}</p>
+            <div class="storyFooter btn-toolbar">
+                <a class="btn btn-success" ng-click="saveStory($index)">Save <i class="fa fa-right fa-save"></i></a>
+                <a class="btn btn-primary" href="{{story.url}}" target="_blank">Read <i class="fa fa-right fa-arrow-right"></i></a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div ng-show="!connectionError" class="row pull-right">
+        <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPage(currentPage)" data-ng-model="currentPage" data-boundary-links="true" data-items-per-page="itemsPerPage" data-total-items="totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
+        </ul>
+    </div>
+
+
+    <!-- Saved stories modal -->
+    <!-- Todo create new view or better approach to this -->
+    <div id="modalSaved" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Saved Stories</h4>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Saved stories repeat -->
+                    <div class="row article" ng-repeat="story in savedNews.articles track by $index">
+                        <div class="col-md-4">
+                            <a href="{{story.url}}" target="_blank">
+                              <img class="img-fluid rounded mb-3 mb-md-0" src="{{story.urlToImage}}" alt="{{articles.title}}">
+                            </a>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 class="storyTitle">{{story.title}}</h3>
+                            <h5 class="storyInfo">
+                                <span><time-ago from-time='{{ story.publishedAt }}'></time-ago>, {{story.author}}
+                                <span ng-if="story.author">-</span>
+                                <span>{{story.source.name}}</span>
+                            </h5>
+                            <p>{{story.description}}</p>
+                            <div class="storyFooter btn-toolbar">
+                                <a class="btn btn-danger" ng-click="deleteStory($index)">Delete <i class="fa fa-right fa-times"></i></a>
+                                <a class="btn btn-primary" href="{{story.url}}" target="_blank">Read <i class="fa fa-right fa-arrow-right"></i></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Settings stories modal -->
+<div id="modalSettings" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Settings</h4>
+            </div>
+            <div class="modal-body settings">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Region</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="form-group">
+                          <label class="radio-inline control-label">
+                            <input type="radio" ng-model="region" name="region" value="gb" ng-change="saveRegion()">GB (default)
+                          </label>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="radio-inline control-label">
+                            <input type="radio" ng-model="region" name="region" value="ie" ng-change="saveRegion()">IE
+                          </label>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="radio-inline control-label">
+                            <input type="radio" ng-model="region" name="region" value="us" ng-change="saveRegion()">US
+                          </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
