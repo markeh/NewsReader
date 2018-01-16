@@ -7,11 +7,7 @@
   - Bower managing packages
   - FontAwesome icons
 
-```mermaid
-graph LR
-A[Angular Front End] -- GET --> B[WebAPI]
-B -- GET --> C[NewsAPI]
-```
+> **Angular Front End** <-- *GET* --> **WebAPI** <-- *GET* --> **NewsAPI**
 
 # WebAPI 
   **Functions:**
@@ -35,7 +31,10 @@ Responsive front end to retrieve and present NewsAPI data via the above API.
 
 **Front End**
 
-From within the front end folder:
+Edit the app.config.js file in the front_end\app\scripts folder and add the API url (usually localhost:5000):
+>webapi_baseurl: 'http://YOUR_API/api/news/',
+
+From within the front_end folder:
 >grunt build
 
 All the necessary files for deploying the front end with be in the /dist folder  (you may need to manually copy fontawesome fonts to the /dist/fonts folder)
@@ -43,7 +42,10 @@ All the necessary files for deploying the front end with be in the /dist folder 
 
 **API**
 
-For deployment was on a Ubuntu webserver:
+Edit the appsettings.json file to enter your NewsAPI API key:
+>  "ApiKey": "YOUR_KEY",
+
+For deployment on a Ubuntu webserver, from within api folder:
 > sudo dotnet publish -o ./NewsAPI2 -r linux-x64
 
 Start the service (user [supervisor](http://supervisord.org) to run in the background / restart):
