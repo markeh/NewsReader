@@ -31,7 +31,7 @@ Responsive front end to retrieve and present NewsAPI data via the above API.
 
 **Front End**
 
-From within the front end folder:
+From within the front_end folder:
 >grunt build
 
 All the necessary files for deploying the front end with be in the /dist folder  (you may need to manually copy fontawesome fonts to the /dist/fonts folder)
@@ -39,7 +39,7 @@ All the necessary files for deploying the front end with be in the /dist folder 
 
 **API**
 
-For deployment was on a Ubuntu webserver:
+For deployment on a Ubuntu webserver, from within api folder:
 > sudo dotnet publish -o ./NewsAPI2 -r linux-x64
 
 Start the service (user [supervisor](http://supervisord.org) to run in the background / restart):
