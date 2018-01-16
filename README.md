@@ -7,11 +7,7 @@
   - Bower managing packages
   - FontAwesome icons
 
-```mermaid
-graph LR
-A[Angular Front End] -- GET --> B[WebAPI]
-B -- GET --> C[NewsAPI]
-```
+> **Angular Front End** <-- *GET* --> **WebAPI** <-- *GET* --> **NewsAPI**
 
 # WebAPI 
   **Functions:**
