@@ -31,6 +31,9 @@ Responsive front end to retrieve and present NewsAPI data via the above API.
 
 **Front End**
 
+Edit the app.config.js file in the front_end\app\scripts folder and add the API url (usually localhost:5000):
+>webapi_baseurl: 'http://YOUR_API/api/news/',
+
 From within the front_end folder:
 >grunt build
 
@@ -38,6 +41,9 @@ All the necessary files for deploying the front end with be in the /dist folder 
 
 
 **API**
+
+Edit the appsettings.json file to enter your NewsAPI API key:
+>  "ApiKey": "YOUR_KEY",
 
 For deployment on a Ubuntu webserver, from within api folder:
 > sudo dotnet publish -o ./NewsAPI2 -r linux-x64
