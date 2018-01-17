@@ -58,9 +58,11 @@ angular.module('markNewsReaderApp')
         //Using the search endpoint
         $scope.search = function() {
 
-            
-                 var promiseSearch = newsService.searchNews($scope.region, $scope.querystring);
+          
+          
             }
+            // search even if the query string is empty (might be clearing the previous search)
+            var promiseSearch = newsService.searchNews($scope.region, $scope.querystring);
 
             promiseSearch.then(function(resp) {
 
