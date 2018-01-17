@@ -58,8 +58,8 @@ angular.module('markNewsReaderApp')
         //Using the search endpoint
         $scope.search = function() {
 
-            if ($scope.querystring.q.length > 0) {
-                var promiseSearch = newsService.searchNews($scope.region, $scope.querystring);
+            
+                 var promiseSearch = newsService.searchNews($scope.region, $scope.querystring);
             }
 
             promiseSearch.then(function(resp) {
