@@ -1,3 +1,20 @@
+.main{
+    padding-top: 70px !important;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .mobile-center{
+        float:none !important;
+        text-align:center !important;
+    }
+
+    .block-mobile{
+        display: block;
+        padding: 10px 0 0 5px;
+    }
+}
+
  .updated{
      font-size: medium;
      color:#aaa;
@@ -68,6 +85,23 @@
  .panel{
      margin-top: 15px;
 }
+
+.ng-hide{
+    display: none;
+}
+
+.pagination-top, .pagination-top > ul{
+    margin: 0px;
+    margin-top: 5px;
+}   
+
+@media only screen and (max-width: 768px) {
+    .pagination-top{
+        margin-top: 30px;
+        display: block;
+    }
+}
+
  .footer a{
      color:#fff;
 }

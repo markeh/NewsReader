@@ -8,9 +8,15 @@
  * Controller of the markNewsReaderApp
  */
 angular.module('markNewsReaderApp')
-    .controller('MainCtrl', function($scope, $rootScope, newsService, $filter, $timeout, $window) {
+    .controller('MainCtrl', function($scope, $rootScope, newsService, $filter, $timeout, $window, $anchorScroll) {
 
-    	//Pagination
+    	//nav position
+        $scope.fixed = false;
+
+        //show pagers
+        $scope.pages = false;
+
+        //Pagination
         $scope.pager = false;
         $scope.currentPage = 1;
         $scope.itemsPerPage = 5;
@@ -46,12 +52,18 @@ angular.module('markNewsReaderApp')
         if (localStorage.getItem("savedNews") != null) {
             $scope.savedNews.articles = angular.fromJson(localStorage.getItem('savedNews'));
         }
-//FIX
+
         if (localStorage.getItem("region") != null) {
             $scope.region = angular.fromJson(localStorage.getItem('region'));
         } else {
         	$scope.region = $rootScope.config.defaultRegion;
             localStorage.setItem('region', angular.toJson($scope.region));
+        }
+
+        if (localStorage.getItem("fixed") != null) {
+            $scope.fixed = angular.fromJson(localStorage.getItem('fixed'));
+        } else {
+            localStorage.setItem('fixed', angular.toJson($scope.fixed));
         }
 
 
@@ -94,6 +106,7 @@ angular.module('markNewsReaderApp')
                     $scope.querystring.q = '';
                     $scope.news.articles = resp.data.articles;
                     $scope.paging();
+                    $scope.pagers = true;
                 } else {
                 	//todo improve user feedback
                     alert("problem retrieving stories");
@@ -128,6 +141,10 @@ angular.module('markNewsReaderApp')
             $scope.refreshNews();
         }
 
+        //Update the nav position preference
+        $scope.saveNav = function() {
+            localStorage.setItem('fixed', angular.toJson($scope.fixed));
+        }
 
         // Paging functionality below vars used with Boostrap pagination
         $scope.paging = function() {
@@ -141,6 +158,7 @@ angular.module('markNewsReaderApp')
 
             $scope.setPage = function(pageNo) {
                 $scope.currentPage = pageNo;
+                  $anchorScroll("scroll-top");  
             };
 
             $scope.setItemsPerPage = function(num) {

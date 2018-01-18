@@ -1,5 +1,5 @@
 <!-- Nav -->
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-inverse" ng-class="fixed?'navbar-fixed-top':'navbar-static-top'" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -34,19 +34,25 @@
 </nav>
 
 
-    <!-- Content -->
-<div class="container">
+<!-- Content -->
+<div class="container" ng-class="fixed?'main':''" id="scroll-top">
 
     <h1 class="my-4">Top Stories
-        <span class="updated">Updated: {{ date.now | date : 'medium' }}</span>
+        <span class="updated block-mobile">Updated: {{ date.now | date : 'medium' }}</span>
+        <span ng-show="!connectionError" class="row pull-right mobile-center pagination-top" ng-hide="!pagers">
+                <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPage(currentPage)" data-ng-model="currentPage" data-boundary-links="true" data-items-per-page="itemsPerPage" data-total-items="totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
+                </ul>
+        </span>
     </h1>
     <hr>
-
+    
+    
+    <!-- Offline / unavailable api message -->
     <div ng-show="connectionError" class="alert alert-danger" role="alert">
-        <a href="#" class="alert-link">An error has occurred, please ensure you are online and try again</a>
+        <span class="alert-link">An error has occurred, please ensure you are online and try again</span>
     </div>
-
-        <!-- Story repeat -->
+    
+    <!-- Story repeat -->
     <div class="row article" ng-repeat="story in news.articles.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) track by $index">
         <div class="col-md-4">
             <a href="{{story.url}}" target="_blank">
@@ -70,7 +76,7 @@
     </div>
 
     <!-- Pagination -->
-    <div ng-show="!connectionError" class="row pull-right">
+    <div ng-show="!connectionError" class="row pull-right mobile-center" ng-hide="!pagers">
         <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPage(currentPage)" data-ng-model="currentPage" data-boundary-links="true" data-items-per-page="itemsPerPage" data-total-items="totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
         </ul>
     </div>
@@ -128,12 +134,12 @@
             </div>
             <div class="modal-body settings">
 
+                <!-- Region panel -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Region</h3>
                     </div>
                     <div class="panel-body">
-
 
                         <div class="form-group">
                           <label class="radio-inline control-label">
@@ -155,6 +161,23 @@
 
                     </div>
                 </div>
+
+                <!-- Nav panel -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Nav bar position</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                          <label class="checkbox-inline control-label">
+                                <input type="checkbox" ng-change="saveNav()" ng-model="fixed" value="">Fixed to top
+                          </label>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
