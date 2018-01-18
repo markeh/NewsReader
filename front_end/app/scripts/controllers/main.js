@@ -58,7 +58,7 @@ angular.module('markNewsReaderApp')
         //Using the search endpoint
         $scope.search = function() {
   
-            if(!$scope.querystring.q) {d
+            if(!$scope.querystring.q) 
               
               $scope.refreshNews();
               
