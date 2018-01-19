@@ -11,7 +11,7 @@
 
 # WebAPI 
   **Functions:**
-  - Handle GET requests from font 
+  - Handle GET requests from front end 
   - Build url to request data from NewsAPI (keep API key server side)
   - Retrieve data from NewsAPI and return it
 
@@ -42,7 +42,7 @@ All the necessary files for deploying the front end with be in the /dist folder 
 
 **API**
 
-Edit the appsettings.json file to enter your NewsAPI API key:
+Edit the appsettings.json file to enter your [NewsAPI](https://newsapi.org/) API key:
 >  "ApiKey": "YOUR_KEY",
 
 For deployment on a Ubuntu webserver, from within api folder:
