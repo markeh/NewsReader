@@ -69,26 +69,33 @@ angular.module('markNewsReaderApp')
 
         //Using the search endpoint
         $scope.search = function() {
+  
+            if(!$scope.querystring.q) {
+              
+              $scope.refreshNews();
+              
+            } else {
+            
+              // search even if the query string is empty (might be clearing the previous search)
+              var promiseSearch = newsService.searchNews($scope.region, $scope.querystring);
 
-            if ($scope.querystring.q.length > 0) {
-                var promiseSearch = newsService.searchNews($scope.region, $scope.querystring);
+              promiseSearch.then(function(resp) {
+
+                  $scope.connectionError = false;
+                  if (resp.data.articles.length > 0) {
+                      $scope.news.articles = resp.data.articles;
+                      $scope.paging();
+                  } else {
+                      //todo improve user feedback
+                      alert("No search results");
+                  }
+
+              }, function(err) {
+                  console.log("An error has occurred, please ensure you are online and try again");
+                  $scope.connectionError = true;
+              });
+              
             }
-
-            promiseSearch.then(function(resp) {
-
-                $scope.connectionError = false;
-                if (resp.data.articles.length > 0) {
-                    $scope.news.articles = resp.data.articles;
-                    $scope.paging();
-                } else {
-                    //todo improve user feedback
-                    alert("No search results");
-                }
-
-            }, function(err) {
-                console.log("An error has occurred, please ensure you are online and try again");
-                $scope.connectionError = true;
-            });
 
         }
 
