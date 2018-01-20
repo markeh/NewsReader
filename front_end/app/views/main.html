@@ -38,14 +38,13 @@
 <div class="container" ng-class="fixed?'main':''" id="scroll-top">
 
     <h1 class="my-4">Top Stories
-        <span class="updated block-mobile">Updated: {{ date.now | date : 'medium' }}</span>
-        <span ng-show="!connectionError" class="row pull-right mobile-center pagination-top" ng-hide="!pagers">
-                <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPage(currentPage)" data-ng-model="currentPage" data-boundary-links="true" data-items-per-page="itemsPerPage" data-total-items="totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
+        <span class="updated block-mobile">Updated: {{ date.now | date : 'medium' }}</span>{{currentPage}}
+        <span ng-show="!connectionError" class="row pull-right mobile-center pagination-top" ng-hide="!pagination.pagers">
+                <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPage(pagination.currentPage)" data-ng-model="pagination.currentPage" data-boundary-links="true" data-items-per-page="pagination.itemsPerPage" data-total-items="pagination.totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
                 </ul>
         </span>
     </h1>
     <hr>
-    
     
     <!-- Offline / unavailable api message -->
     <div ng-show="connectionError" class="alert alert-danger" role="alert">
@@ -53,7 +52,7 @@
     </div>
     
     <!-- Story repeat -->
-    <div class="row article" ng-repeat="story in news.articles.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) track by $index">
+    <div class="row article" ng-repeat="story in news.articles.slice(((pagination.currentPage-1)*pagination.itemsPerPage), ((pagination.currentPage)*pagination.itemsPerPage)) track by $index">
         <div class="col-md-4">
             <a href="{{story.url}}" target="_blank">
             <img class="img-fluid" ng-src="{{story.urlToImage}}" alt="{{story.title}}">
@@ -76,8 +75,8 @@
     </div>
 
     <!-- Pagination -->
-    <div ng-show="!connectionError" class="row pull-right mobile-center" ng-hide="!pagers">
-        <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPage(currentPage)" data-ng-model="currentPage" data-boundary-links="true" data-items-per-page="itemsPerPage" data-total-items="totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
+    <div ng-show="!connectionError" class="row pull-right mobile-center" ng-hide="!pagination.pagers">
+        <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPage(pagination.currentPage)" data-ng-model="pagination.currentPage" data-boundary-links="true" data-items-per-page="pagination.itemsPerPage" data-total-items="pagination.totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
         </ul>
     </div>
 

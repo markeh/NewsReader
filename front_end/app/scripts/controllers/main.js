@@ -13,15 +13,15 @@ angular.module('markNewsReaderApp')
     	//nav position
         $scope.fixed = false;
 
-        //show pagers
-        $scope.pages = false;
-
         //Pagination
-        $scope.pager = false;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = 5;
-        $scope.maxSize = 5;
-
+        $scope.pagination = {
+            pagers: false,
+            currentPage: 1,
+            maxSize: 5,
+            itemsPerPage: 5,
+            totalItems: null
+        };
+        
         //API connection state
         $scope.connectionError = false;
 
@@ -76,15 +76,14 @@ angular.module('markNewsReaderApp')
               
             } else {
             
-              // search even if the query string is empty (might be clearing the previous search)
               var promiseSearch = newsService.searchNews($scope.region, $scope.querystring);
 
               promiseSearch.then(function(resp) {
 
                   $scope.connectionError = false;
                   if (resp.data.articles.length > 0) {
-                      $scope.news.articles = resp.data.articles;
-                      $scope.paging();
+                        $scope.news.articles = resp.data.articles;
+                        $scope.paging();
                   } else {
                       //todo improve user feedback
                       alert("No search results");
@@ -113,9 +112,10 @@ angular.module('markNewsReaderApp')
                     $scope.querystring.q = '';
                     $scope.news.articles = resp.data.articles;
                     $scope.paging();
-                    $scope.pagers = true;
+                    $scope.pagination.pagers = true;
                 } else {
                 	//todo improve user feedback
+                    $scope.pagination.pagers = false;
                     alert("problem retrieving stories");
                 }
 
@@ -153,25 +153,34 @@ angular.module('markNewsReaderApp')
             localStorage.setItem('fixed', angular.toJson($scope.fixed));
         }
 
-        // Paging functionality below vars used with Boostrap pagination
+        // Paging functionality below vars used with Bootstrap pagination
         $scope.paging = function() {
 
-            $scope.totalItems = $scope.news.articles.length;
-            $scope.numPages = $scope.totalItems / $scope.itemsPerPage;
+            $scope.pagination.totalItems = $scope.news.articles.length;
+            $scope.pagination.numPages = $scope.pagination.totalItems / $scope.pagination.itemsPerPage;
 
-            if ($scope.totalItems > $scope.itemsPerPage) {
-                $scope.pager = true;
+            if ($scope.pagination.totalItems > $scope.pagination.itemsPerPage) {
+                $scope.pagination.pager = true;
             }
 
             $scope.setPage = function(pageNo) {
-                $scope.currentPage = pageNo;
-                  $anchorScroll("scroll-top");  
+                $scope.pagination.currentPage = pageNo;
+                $anchorScroll("scroll-top");  
+            };
+
+            $scope.resetPage = function() {
+                $scope.pagination.currentPage = 1;
+                //$scope.currentPage_bottom = 1;
+                $anchorScroll("scroll-top");  
             };
 
             $scope.setItemsPerPage = function(num) {
-                $scope.itemsPerPage = num;
-                $scope.currentPage = 1; //reset to first page
+                $scope.pagination.itemsPerPage = num;
+                $scope.pagination.currentPage = 1; //reset to first page
             }
+            
+            // reset to 1 every time paging is called 
+            $scope.pagination.currentPage = 1; 
 
         }
 
