@@ -163,15 +163,13 @@ angular.module('markNewsReaderApp')
                 $scope.pagination.pager = true;
             }
 
-            $scope.setPage = function(pageNo) {
+            $scope.setPageBottom = function(pageNo) {
                 $scope.pagination.currentPage = pageNo;
                 $anchorScroll("scroll-top");  
             };
 
-            $scope.resetPage = function() {
-                $scope.pagination.currentPage = 1;
-                //$scope.currentPage_bottom = 1;
-                $anchorScroll("scroll-top");  
+            $scope.setPageTop = function(pageNo) {
+                $scope.pagination.currentPage = pageNo;
             };
 
             $scope.setItemsPerPage = function(num) {

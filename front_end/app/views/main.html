@@ -40,7 +40,7 @@
     <h1 class="my-4">Top Stories
         <span class="updated block-mobile">Updated: {{ date.now | date : 'medium' }}</span>{{currentPage}}
         <span ng-show="!connectionError" class="row pull-right mobile-center pagination-top" ng-hide="!pagination.pagers">
-                <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPage(pagination.currentPage)" data-ng-model="pagination.currentPage" data-boundary-links="true" data-items-per-page="pagination.itemsPerPage" data-total-items="pagination.totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
+                <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPageTop(pagination.currentPage)" data-ng-model="pagination.currentPage" data-boundary-links="true" data-items-per-page="pagination.itemsPerPage" data-total-items="pagination.totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
                 </ul>
         </span>
     </h1>
@@ -76,7 +76,7 @@
 
     <!-- Pagination -->
     <div ng-show="!connectionError" class="row pull-right mobile-center" ng-hide="!pagination.pagers">
-        <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPage(pagination.currentPage)" data-ng-model="pagination.currentPage" data-boundary-links="true" data-items-per-page="pagination.itemsPerPage" data-total-items="pagination.totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
+        <ul data-uib-pagination="" class="pagination-sm" data-ng-if="!isVisible" data-ng-change="setPageBottom(pagination.currentPage)" data-ng-model="pagination.currentPage" data-boundary-links="true" data-items-per-page="pagination.itemsPerPage" data-total-items="pagination.totalItems" data-previous-text="&lsaquo;" data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;">
         </ul>
     </div>
 
